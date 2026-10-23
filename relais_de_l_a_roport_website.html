@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relais de l'Aéroport - Shell Station, Select Shop & Restaurant</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- QRCode JS Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        shell: {
+                            red: '#DD1D21',
+                            redDark: '#B80C0F',
+                            yellow: '#FFD500',
+                            yellowHover: '#E6BE00',
+                            charcoal: '#1A1A1A',
+                            cream: '#FAFAFA',
+                            grayBg: '#F3F4F6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Shell Styling */
+        .bg-shell-gradient {
+            background: linear-gradient(135deg, #DD1D21 0%, #B80C0F 100%);
+        }
+        .bg-shell-yellow-gradient {
+            background: linear-gradient(135deg, #FFD500 0%, #FFB700 100%);
+        }
+        .text-shell-red { color: #DD1D21; }
+        .bg-shell-red { background-color: #DD1D21; }
+        .border-shell-red { border-color: #DD1D21; }
+        .text-shell-yellow { color: #FFD500; }
+        .bg-shell-yellow { background-color: #FFD500; }
+        .border-shell-yellow { border-color: #FFD500; }
+        
+        .shadow-shell {
+            box-shadow: 0 10px 30px -10px rgba(221, 29, 33, 0.25);
+        }
+        .shadow-yellow-shell {
+            box-shadow: 0 10px 30px -10px rgba(255, 213, 0, 0.35);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #F1F5F9; }
+        ::-webkit-scrollbar-thumb { background: #DD1D21; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #B80C0F; }
+
+        .pecten-bg-pattern {
+            background-image: radial-gradient(#DD1D21 0.75px, transparent 0.75px), radial-gradient(#DD1D21 0.75px, #ffffff 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            opacity: 0.03;
+        }
+    </style>
+</head>
+<body class="bg-shell-cream text-shell-charcoal font-sans antialiased selection:bg-shell-yellow selection:text-shell-charcoal overflow-x-hidden">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Shell Brand Top Banner Bar -->
+    <div class="bg-shell-red text-white py-2 px-4 text-xs font-bold flex justify-between items-center z-50 relative">
+        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5 bg-black/20 px-2.5 py-0.5 rounded-full text-[11px]">
+                    <span class="w-2 h-2 rounded-full bg-shell-yellow animate-pulse"></span>
+                    24/7 Open Hub
+                </span>
+                <span class="hidden sm:inline-block text-white/90">📍 Tangier Airport Road (N1 Hub), Morocco</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs">
+                <a href="tel:+212539001122" class="hover:text-shell-yellow transition-colors flex items-center gap-1">
+                    <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+                    <span class="hidden md:inline">+212 539 00 11 22</span>
+                </a>
+                <span class="text-white/40">|</span>
+                <span class="text-shell-yellow font-extrabold flex items-center gap-1">
+                    <svg class="w-4 h-4 fill-current text-shell-yellow" viewBox="0 0 100 100">
+                        <path d="M50,5 C30,5 15,20 15,40 C15,65 50,95 50,95 C50,95 85,65 85,40 C85,20 70,5 50,5 Z M50,22 C55.5,22 60,26.5 60,32 C60,37.5 55.5,42 50,42 C44.5,42 40,37.5 40,32 C40,26.5 44.5,22 50,22 Z" fill="#FFD500"/>
+                    </svg>
+                    Shell V-Power Authorized
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-4 border-shell-red shadow-md transition-all duration-300" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
+            
+            <!-- Brand Logo with Shell Shell Icon Emblem -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-xl bg-shell-yellow p-1.5 shadow-md flex items-center justify-center border-2 border-shell-red group-hover:scale-105 transition-transform">
+                    <!-- Shell Pecten SVG Logo -->
+                    <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 5C41 5 35 12 32 18L18 25C12 28 8 35 8 42C8 58 20 72 35 78L40 92C42 96 46 98 50 98C54 98 58 96 60 92L65 78C80 72 92 58 92 42C92 35 88 28 82 25L68 18C65 12 59 5 50 5Z" fill="#FFD500" stroke="#DD1D21" stroke-width="4"/>
+                        <path d="M50 15V88M36 22L42 84M64 22L58 84M23 35L33 78M77 35L67 78M14 50L26 71M86 50L74 71" stroke="#DD1D21" stroke-width="3.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-tight text-shell-charcoal block leading-none">Relais de l'Aéroport</span>
+                    <div class="flex items-center gap-1.5 mt-0.5">
+                        <span class="text-[11px] font-extrabold uppercase tracking-wider text-shell-red">Shell Station</span>
+                        <span class="text-[10px] text-gray-400">•</span>
+                        <span class="text-[11px] font-bold text-gray-600">Select & Dining</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Desktop Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-shell-charcoal">
+                <a href="#overview" class="hover:text-shell-red transition-colors flex items-center gap-1.5">
+                    <i data-lucide="fuel" class="w-4 h-4 text-shell-red"></i> Station & Fuel
+                </a>
+                <a href="#select-shop" class="hover:text-shell-red transition-colors flex items-center gap-1.5">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 text-shell-red"></i> Shell Select Shop
+                </a>
+                <a href="#restaurant" class="hover:text-shell-red transition-colors flex items-center gap-1.5">
+                    <i data-lucide="utensils" class="w-4 h-4 text-shell-red"></i> Restaurant Menu
+                </a>
+                <a href="#qr-generator" class="hover:text-shell-red transition-colors flex items-center gap-1.5">
+                    <i data-lucide="qr-code" class="w-4 h-4 text-shell-red"></i> Table QR Studio
+                </a>
+                <a href="#location" class="hover:text-shell-red transition-colors flex items-center gap-1.5">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-shell-red"></i> Location
+                </a>
+            </nav>
+
+            <!-- Action CTA & Mobile Toggle -->
+            <div class="flex items-center gap-3">
+                <button onclick="openQrModal()" class="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black text-shell-charcoal bg-shell-yellow hover:bg-shell-yellowHover border-2 border-shell-charcoal/10 transition-all shadow-md hover:scale-105">
+                    <i data-lucide="qr-code" class="w-4 h-4 text-shell-red"></i>
+                    <span>Scan Table Menu</span>
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden p-2.5 rounded-xl bg-gray-100 text-shell-charcoal hover:bg-shell-red hover:text-white transition-all">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden border-t-2 border-shell-red bg-white px-6 py-6 space-y-4 shadow-xl">
+            <a href="#overview" class="block font-bold text-shell-charcoal hover:text-shell-red py-2 border-b border-gray-100">Station & Fuel Services</a>
+            <a href="#select-shop" class="block font-bold text-shell-charcoal hover:text-shell-red py-2 border-b border-gray-100">Shell Select Shop</a>
+            <a href="#restaurant" class="block font-bold text-shell-charcoal hover:text-shell-red py-2 border-b border-gray-100">Restaurant & Snacks Menu</a>
+            <a href="#qr-generator" class="block font-bold text-shell-charcoal hover:text-shell-red py-2 border-b border-gray-100">Table QR Generator Studio</a>
+            <a href="#location" class="block font-bold text-shell-charcoal hover:text-shell-red py-2">Location & Airport Access</a>
+            <div class="pt-2">
+                <button onclick="openQrModal()" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-extrabold text-white bg-shell-red shadow-lg">
+                    <i data-lucide="qr-code" class="w-5 h-5 text-shell-yellow"></i>
+                    <span>Open Table QR Menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner Section -->
+    <section class="relative bg-gradient-to-br from-gray-900 via-slate-900 to-shell-charcoal text-white py-16 lg:py-24 overflow-hidden border-b-8 border-shell-yellow">
+        <!-- Shell Red & Yellow Ambient Glows -->
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-shell-red/30 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 right-0 w-96 h-96 bg-shell-yellow/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Info -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-shell-yellow/40 text-shell-yellow text-xs font-black uppercase tracking-wider">
+                        <!-- Shell SVG Mini -->
+                        <svg class="w-4 h-4 fill-current text-shell-yellow" viewBox="0 0 100 100">
+                            <path d="M50,5 C30,5 15,20 15,40 C15,65 50,95 50,95 C50,95 85,65 85,40 C85,20 70,5 50,5 Z" />
+                        </svg>
+                        <span>Official Shell Service Station • Tangier Airport Road</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none text-white">
+                        Welcome to <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-shell-yellow via-yellow-200 to-amber-400">Relais de l'Aéroport</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-gray-300 font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        Your premier roadside oasis on the Tangier Airport Highway (N1). Premium Shell V-Power performance fuels, fully stocked Shell Select shop, and gourmet hot restaurant dining with instant QR table ordering.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#restaurant" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-black text-white bg-shell-gradient hover:opacity-95 transition-all shadow-shell hover:scale-105 border-b-4 border-red-900">
+                            <i data-lucide="utensils-crossed" class="w-5 h-5 text-shell-yellow"></i>
+                            <span>Explore Restaurant Menu</span>
+                        </a>
+                        <a href="#qr-generator" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-extrabold text-shell-charcoal bg-shell-yellow hover:bg-shell-yellowHover transition-all shadow-yellow-shell hover:scale-105 border-b-4 border-amber-600">
+                            <i data-lucide="qr-code" class="w-5 h-5 text-shell-red"></i>
+                            <span>Table QR Studio</span>
+                        </a>
+                    </div>
+
+                    <!-- Key Badges -->
+                    <div class="pt-8 border-t border-white/10 grid grid-cols-3 gap-4">
+                        <div class="text-center lg:text-left">
+                            <div class="flex items-center justify-center lg:justify-start gap-1 text-shell-yellow font-black text-2xl sm:text-3xl">
+                                <span>24</span><span class="text-sm font-bold text-shell-red">/7</span>
+                            </div>
+                            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mt-1">Open Non-Stop</p>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <div class="flex items-center justify-center lg:justify-start gap-1 text-white font-black text-2xl sm:text-3xl">
+                                <i data-lucide="zap" class="w-6 h-6 text-shell-yellow"></i> V-Power
+                            </div>
+                            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mt-1">Dynaflex Tech</p>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <div class="flex items-center justify-center lg:justify-start gap-1 text-shell-yellow font-black text-2xl sm:text-3xl">
+                                <i data-lucide="wifi" class="w-6 h-6 text-emerald-400"></i> Free
+                            </div>
+                            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mt-1">High-Speed Wi-Fi</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Widget Card -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white text-shell-charcoal rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-shell-yellow relative overflow-hidden">
+                        
+                        <!-- Shell Watermark Icon -->
+                        <svg class="absolute -right-10 -bottom-10 w-48 h-48 opacity-10 pointer-events-none" viewBox="0 0 100 100">
+                            <path d="M50 5C41 5 35 12 32 18L18 25C12 28 8 35 8 42C8 58 20 72 35 78L40 92C42 96 46 98 50 98C54 98 58 96 60 92L65 78C80 72 92 58 92 42C92 35 88 28 82 25L68 18C65 12 59 5 50 5Z" fill="#DD1D21"/>
+                        </svg>
+
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></div>
+                                <span class="text-xs font-extrabold uppercase text-gray-500">Instant Table Scan</span>
+                            </div>
+                            <span class="px-2.5 py-1 bg-shell-red text-white text-[10px] font-black rounded-md uppercase">Live Station Menu</span>
+                        </div>
+
+                        <div class="text-center space-y-4">
+                            <h3 class="text-xl font-black text-shell-charcoal">Scan Menu From Your Phone</h3>
+                            <p class="text-xs text-gray-600">Dine in at our restaurant or grab food to go. Scan this code with any smartphone camera to browse dishes instantly.</p>
+                            
+                            <!-- QR Container Frame -->
+                            <div class="p-4 bg-shell-grayBg rounded-2xl inline-block border-2 border-shell-red/20 shadow-inner">
+                                <div id="hero-qrcode" class="flex justify-center items-center"></div>
+                            </div>
+
+                            <div class="flex items-center justify-center gap-2 text-xs font-bold text-shell-red">
+                                <i data-lucide="smartphone" class="w-4 h-4"></i>
+                                <span>No app installation required</span>
+                            </div>
+
+                            <button onclick="copyMenuLink()" class="w-full py-3 px-4 rounded-xl bg-shell-charcoal hover:bg-black text-white text-xs font-extrabold flex items-center justify-center gap-2 transition-all">
+                                <i data-lucide="copy" class="w-4 h-4 text-shell-yellow"></i>
+                                <span>Copy Station Menu Link</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Shell Station & Fuel Services Overview -->
+    <section id="overview" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-shell-red/10 text-shell-red font-black text-xs uppercase tracking-wider">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <span>Shell Quality Standard</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-black text-shell-charcoal">Complete Roadside Services</h2>
+                <p class="text-gray-600 text-sm sm:text-base">Designed for travelers, airport commuters, trucks, and daily drivers with high-speed service.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-shell-grayBg p-8 rounded-2xl border-t-4 border-shell-red hover:shadow-xl transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-shell-red text-shell-yellow flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform">
+                        <i data-lucide="fuel" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-shell-charcoal mb-2">Shell V-Power Fuels</h3>
+                    <p class="text-gray-600 text-xs leading-relaxed mb-4">Unleaded & Diesel V-Power with Dynaflex technology for enhanced engine performance and protection.</p>
+                    <ul class="text-xs text-gray-700 space-y-2 font-semibold">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-shell-red"></i> High-Speed Fuel Dispensers</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-shell-red"></i> Shell Card & Digital Contactless Pay</li>
+                    </ul>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-shell-grayBg p-8 rounded-2xl border-t-4 border-shell-yellow hover:shadow-xl transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-shell-yellow text-shell-charcoal flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform">
+                        <i data-lucide="shopping-bag" class="w-7 h-7 text-shell-red"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-shell-charcoal mb-2">Shell Select Convenience Shop</h3>
+                    <p class="text-gray-600 text-xs leading-relaxed mb-4">Open 24/7 with chilled beverages, travel snacks, car care accessories, and travel hygiene kits.</p>
+                    <ul class="text-xs text-gray-700 space-y-2 font-semibold">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-shell-red"></i> Fresh Coffee & French Pastries</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-shell-red"></i> Travel Accessories & SIM Cards</li>
+                    </ul>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-shell-grayBg p-8 rounded-2xl border-t-4 border-shell-red hover:shadow-xl transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-shell-red text-white flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform">
+                        <i data-lucide="sparkles" class="w-7 h-7 text-shell-yellow"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-shell-charcoal mb-2">Clean Restrooms & Amenities</h3>
+                    <p class="text-gray-600 text-xs leading-relaxed mb-4">Pristine, regularly sanitized restrooms, baby changing tables, prayer rooms, and free high-speed Wi-Fi.</p>
+                    <ul class="text-xs text-gray-700 space-y-2 font-semibold">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-shell-red"></i> Air & Tire Pressure Station</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-shell-red"></i> EV Fast Charging Station</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shell Select Express Shop Section -->
+    <section id="select-shop" class="py-16 bg-shell-grayBg border-y border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
+                <div>
+                    <div class="flex items-center gap-2 text-shell-red font-black text-xs uppercase tracking-wider mb-2">
+                        <span class="px-2.5 py-1 bg-shell-yellow text-shell-charcoal rounded-md font-extrabold">Shell Select Shop</span>
+                        <span>Grab & Go Staples</span>
+                    </div>
+                    <h2 class="text-3xl font-black text-shell-charcoal">Express Travel Convenience</h2>
+                    <p class="text-gray-600 text-sm mt-1">Fresh snacks, cold refreshments, and road essentials available non-stop.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="px-4 py-2 bg-white rounded-xl text-xs font-black text-shell-charcoal shadow-sm border border-gray-200 flex items-center gap-2">
+                        <i data-lucide="clock" class="w-4 h-4 text-shell-red"></i> Open 24/7
+                    </span>
+                </div>
+            </div>
+
+            <!-- Shop Items Cards -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Shop Item 1 -->
+                <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+                    <div class="h-40 rounded-xl overflow-hidden mb-4 bg-gray-100 relative">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop" alt="Shell Select Coffee" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 bg-shell-red text-white text-[10px] font-black px-2 py-0.5 rounded uppercase">Fresh Coffee</span>
+                    </div>
+                    <h4 class="font-extrabold text-shell-charcoal text-base">Gourmet Espresso & Latte</h4>
+                    <p class="text-xs text-gray-500 mt-1">Freshly ground premium Arabica beans.</p>
+                    <div class="mt-4 flex items-center justify-between border-t pt-3">
+                        <span class="text-shell-red font-black text-sm">20.00 MAD</span>
+                        <span class="text-[11px] font-bold text-gray-400">Shell Select</span>
+                    </div>
+                </div>
+
+                <!-- Shop Item 2 -->
+                <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+                    <div class="h-40 rounded-xl overflow-hidden mb-4 bg-gray-100 relative">
+                        <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=800&auto=format&fit=crop" alt="Energy Drinks" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 bg-shell-yellow text-shell-charcoal text-[10px] font-black px-2 py-0.5 rounded uppercase">Cold Drinks</span>
+                    </div>
+                    <h4 class="font-extrabold text-shell-charcoal text-base">Energy & Chilled Juices</h4>
+                    <p class="text-xs text-gray-500 mt-1">Sodas, sports drinks & organic fruit juices.</p>
+                    <div class="mt-4 flex items-center justify-between border-t pt-3">
+                        <span class="text-shell-red font-black text-sm">15.00 MAD</span>
+                        <span class="text-[11px] font-bold text-gray-400">Ice Cold</span>
+                    </div>
+                </div>
+
+                <!-- Shop Item 3 -->
+                <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+                    <div class="h-40 rounded-xl overflow-hidden mb-4 bg-gray-100 relative">
+                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800&auto=format&fit=crop" alt="Travel Snacks" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 bg-shell-red text-white text-[10px] font-black px-2 py-0.5 rounded uppercase">Travel Pack</span>
+                    </div>
+                    <h4 class="font-extrabold text-shell-charcoal text-base">Airport Road Snack Box</h4>
+                    <p class="text-xs text-gray-500 mt-1">Sandwich, chips & refreshing juice combo.</p>
+                    <div class="mt-4 flex items-center justify-between border-t pt-3">
+                        <span class="text-shell-red font-black text-sm">45.00 MAD</span>
+                        <span class="text-[11px] font-bold text-emerald-600 font-black">Best Value</span>
+                    </div>
+                </div>
+
+                <!-- Shop Item 4 -->
+                <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+                    <div class="h-40 rounded-xl overflow-hidden mb-4 bg-gray-100 relative">
+                        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop" alt="Fresh Bakery" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 bg-shell-yellow text-shell-charcoal text-[10px] font-black px-2 py-0.5 rounded uppercase">Bakery</span>
+                    </div>
+                    <h4 class="font-extrabold text-shell-charcoal text-base">Butter Croissants & Pastries</h4>
+                    <p class="text-xs text-gray-500 mt-1">Freshly baked french breakfast pastries.</p>
+                    <div class="mt-4 flex items-center justify-between border-t pt-3">
+                        <span class="text-shell-red font-black text-sm">12.00 MAD</span>
+                        <span class="text-[11px] font-bold text-gray-400">Daily Fresh</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Restaurant & Snack Menu Section -->
+    <section id="restaurant" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-shell-yellow text-shell-charcoal font-black text-xs uppercase tracking-wider mb-2">
+                        <i data-lucide="utensils" class="w-4 h-4 text-shell-red"></i>
+                        <span>On-Site Dining & Takeaway</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-black text-shell-charcoal">Restaurant Relais Menu</h2>
+                    <p class="text-gray-600 text-sm mt-1">Fresh hot meals, Moroccan specialties, grilled favorites & fast snack items.</p>
+                </div>
+
+                <!-- Direct Menu Actions -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <button onclick="openQrModal()" class="px-5 py-3 rounded-xl bg-shell-red hover:bg-shell-redDark text-white font-black text-xs flex items-center gap-2 shadow-shell transition-all">
+                        <i data-lucide="qr-code" class="w-4 h-4 text-shell-yellow"></i>
+                        <span>View Digital Table QR</span>
+                    </button>
+                    <a href="#qr-generator" class="px-5 py-3 rounded-xl bg-shell-grayBg hover:bg-gray-200 text-shell-charcoal font-black text-xs flex items-center gap-2 transition-all">
+                        <i data-lucide="settings" class="w-4 h-4 text-shell-red"></i>
+                        <span>Generate Table Specific QR</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Menu Search & Category Filters -->
+            <div class="bg-shell-grayBg p-4 rounded-2xl mb-8 flex flex-col md:flex-row items-center justify-between gap-4 border border-gray-200">
+                <!-- Categories Bar -->
+                <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0" id="menu-categories">
+                    <button onclick="filterCategory('all')" class="category-btn active px-4 py-2.5 rounded-xl text-xs font-black transition-all bg-shell-red text-white whitespace-nowrap shadow-sm">All Dishes</button>
+                    <button onclick="filterCategory('breakfast')" class="category-btn px-4 py-2.5 rounded-xl text-xs font-black transition-all bg-white text-shell-charcoal hover:bg-shell-yellow whitespace-nowrap">Breakfast</button>
+                    <button onclick="filterCategory('fastfood')" class="category-btn px-4 py-2.5 rounded-xl text-xs font-black transition-all bg-white text-shell-charcoal hover:bg-shell-yellow whitespace-nowrap">Sandwiches & Fast Food</button>
+                    <button onclick="filterCategory('moroccan')" class="category-btn px-4 py-2.5 rounded-xl text-xs font-black transition-all bg-white text-shell-charcoal hover:bg-shell-yellow whitespace-nowrap">Moroccan Specialties</button>
+                    <button onclick="filterCategory('grill')" class="category-btn px-4 py-2.5 rounded-xl text-xs font-black transition-all bg-white text-shell-charcoal hover:bg-shell-yellow whitespace-nowrap">Grill & Mains</button>
+                    <button onclick="filterCategory('beverages')" class="category-btn px-4 py-2.5 rounded-xl text-xs font-black transition-all bg-white text-shell-charcoal hover:bg-shell-yellow whitespace-nowrap">Beverages & Desserts</button>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative w-full md:w-64">
+                    <input type="text" id="menu-search" oninput="handleSearch()" placeholder="Search dishes..." class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 pl-10 text-xs font-bold text-shell-charcoal placeholder-gray-400 focus:outline-none focus:border-shell-red transition-all">
+                    <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-3"></i>
+                </div>
+            </div>
+
+            <!-- Menu Item Cards Container -->
+            <div id="menu-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically rendered JS items -->
+            </div>
+
+            <!-- Empty Search Results -->
+            <div id="no-results" class="hidden py-16 text-center space-y-3 bg-shell-grayBg rounded-2xl border border-dashed border-gray-300">
+                <i data-lucide="utensils" class="w-12 h-12 text-gray-400 mx-auto"></i>
+                <h3 class="text-lg font-black text-shell-charcoal">No dishes match your query</h3>
+                <p class="text-xs text-gray-500">Try checking for spelling or select a different menu category.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Table QR Preset Generator Studio -->
+    <section id="qr-generator" class="py-20 bg-shell-grayBg border-y border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Generator Controls -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-shell-red text-white font-black text-xs uppercase tracking-wider mb-2">
+                            <i data-lucide="sliders" class="w-4 h-4 text-shell-yellow"></i>
+                            <span>Station Manager Tools</span>
+                        </div>
+                        <h2 class="text-3xl font-black text-shell-charcoal">Table & Station QR Generator</h2>
+                        <p class="text-gray-600 text-sm mt-1">Generate custom branded Shell QR codes for tabletop stands, takeaway counters, or specific dining tables (Tables 1 to 15).</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 space-y-5 shadow-sm">
+                        <!-- Select Preset Target -->
+                        <div>
+                            <label class="block text-xs font-extrabold text-shell-charcoal uppercase tracking-wider mb-2">Select Target Preset</label>
+                            <select id="qr-preset-select" onchange="updateCustomQR()" class="w-full bg-shell-grayBg border border-gray-300 rounded-xl px-4 py-3 text-xs font-bold text-shell-charcoal focus:outline-none focus:border-shell-red">
+                                <option value="main">Main Restaurant Menu (General Scan)</option>
+                                <option value="table-1">Table 01 - Restaurant Dining</option>
+                                <option value="table-2">Table 02 - Restaurant Dining</option>
+                                <option value="table-3">Table 03 - Restaurant Dining</option>
+                                <option value="table-4">Table 04 - Restaurant Dining</option>
+                                <option value="table-5">Table 05 - Restaurant Dining</option>
+                                <option value="table-10">Table 10 - Outdoor Terrace</option>
+                                <option value="takeaway">Takeaway Express Counter</option>
+                            </select>
+                        </div>
+
+                        <!-- Custom Note Input -->
+                        <div>
+                            <label class="block text-xs font-extrabold text-shell-charcoal uppercase tracking-wider mb-2">Header Title on Printed Stand</label>
+                            <input type="text" id="qr-stand-title" value="Relais de l'Aéroport - Table Service" oninput="updateCustomQR()" class="w-full bg-shell-grayBg border border-gray-300 rounded-xl px-4 py-3 text-xs font-bold text-shell-charcoal focus:outline-none focus:border-shell-red">
+                        </div>
+
+                        <!-- Brand Theme Selector -->
+                        <div>
+                            <label class="block text-xs font-extrabold text-shell-charcoal uppercase tracking-wider mb-2">Shell Color Palette Accent</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button type="button" onclick="setQRColor('#DD1D21', '#FFD500')" class="p-3 rounded-xl border-2 border-shell-red bg-shell-red text-white text-xs font-bold flex items-center justify-between">
+                                    <span>Shell Red & Yellow</span>
+                                    <div class="w-4 h-4 rounded-full bg-shell-yellow border border-white"></div>
+                                </button>
+                                <button type="button" onclick="setQRColor('#1A1A1A', '#ffffff')" class="p-3 rounded-xl border-2 border-gray-300 bg-white text-shell-charcoal text-xs font-bold flex items-center justify-between">
+                                    <span>Classic Charcoal</span>
+                                    <div class="w-4 h-4 rounded-full bg-black"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic QR Preview Display Card -->
+                <div class="lg:col-span-6">
+                    <div class="bg-white p-8 rounded-3xl border-4 border-shell-red shadow-xl text-center space-y-6 relative overflow-hidden" id="qr-print-card">
+                        
+                        <!-- Shell Watermark -->
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            <div class="w-8 h-8 rounded-lg bg-shell-yellow p-1 border border-shell-red flex items-center justify-center">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <path d="M50 5C41 5 35 12 32 18L18 25C12 28 8 35 8 42C8 58 20 72 35 78L40 92C42 96 46 98 50 98C54 98 58 96 60 92L65 78C80 72 92 58 92 42C92 35 88 28 82 25L68 18C65 12 59 5 50 5Z" fill="#FFD500" stroke="#DD1D21" stroke-width="4"/>
+                                </svg>
+                            </div>
+                            <span class="text-sm font-black uppercase text-shell-red tracking-wider" id="preview-stand-title">Relais de l'Aéroport</span>
+                        </div>
+
+                        <p class="text-xs text-gray-500 font-bold" id="preview-target-subtitle">Scan to order from Table 01</p>
+
+                        <!-- Live QR Render Box -->
+                        <div class="p-6 bg-shell-grayBg rounded-2xl inline-block border-2 border-shell-yellow shadow-inner">
+                            <div id="studio-qrcode" class="flex justify-center items-center"></div>
+                        </div>
+
+                        <div class="text-[11px] font-bold text-gray-400">
+                            <span>Official Shell Station Menu Link</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <button onclick="downloadStudioQR()" class="py-3 px-4 rounded-xl bg-shell-yellow hover:bg-shell-yellowHover text-shell-charcoal text-xs font-black flex items-center justify-center gap-2 shadow-sm transition-all border border-amber-400">
+                                <i data-lucide="download" class="w-4 h-4 text-shell-red"></i>
+                                <span>Download PNG</span>
+                            </button>
+                            <button onclick="printStudioQR()" class="py-3 px-4 rounded-xl bg-shell-red hover:bg-shell-redDark text-white text-xs font-black flex items-center justify-center gap-2 shadow-shell transition-all">
+                                <i data-lucide="printer" class="w-4 h-4 text-shell-yellow"></i>
+                                <span>Print Table Stand</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Tangier Airport Access Section -->
+    <section id="location" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Info -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-shell-red/10 text-shell-red font-black text-xs uppercase tracking-wider mb-2">
+                            <i data-lucide="navigation" class="w-4 h-4"></i>
+                            <span>Highway N1 Strategic Stop</span>
+                        </div>
+                        <h2 class="text-3xl font-black text-shell-charcoal">Location & Station Contact</h2>
+                        <p class="text-gray-600 text-sm mt-2">Positioned directly on the Tangier Ibn Battouta Airport Road (N1 access point), serving incoming and outgoing travelers 24 hours a day.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-xl bg-shell-grayBg border border-gray-200 flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-shell-red text-shell-yellow flex items-center justify-center shrink-0 font-bold">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-black uppercase text-shell-charcoal">Station Address</h4>
+                                <p class="text-xs font-bold text-gray-600 mt-0.5">Route de l'Aéroport (N1 Highway), Tangier 90000, Morocco</p>
+                                <p class="text-[11px] text-shell-red font-bold mt-1">📍 3 Minutes from Airport Terminal Exit</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-shell-grayBg border border-gray-200 flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-shell-yellow text-shell-charcoal flex items-center justify-center shrink-0 font-bold">
+                                <i data-lucide="clock" class="w-5 h-5 text-shell-red"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-black uppercase text-shell-charcoal">Hours of Operation</h4>
+                                <p class="text-xs font-bold text-gray-700">Pumps & Select Shop: <span class="text-shell-red font-black">24/7 Non-Stop</span></p>
+                                <p class="text-xs text-gray-600">Restaurant Kitchen: <span class="font-bold text-shell-charcoal">06:00 AM – 00:00 AM Daily</span></p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-shell-grayBg border border-gray-200 flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-shell-red text-white flex items-center justify-center shrink-0 font-bold">
+                                <i data-lucide="phone" class="w-5 h-5 text-shell-yellow"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-black uppercase text-shell-charcoal">Direct Contact</h4>
+                                <p class="text-xs text-gray-700 font-bold">+212 539 00 11 22</p>
+                                <p class="text-xs text-gray-500">relais.aeroport@shell-morocco.ma</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Styled Map Graphic Card -->
+                <div class="lg:col-span-7">
+                    <div class="bg-shell-charcoal rounded-3xl p-3 border-4 border-shell-yellow shadow-2xl relative overflow-hidden text-white">
+                        <div class="w-full h-96 rounded-2xl bg-gray-800 relative overflow-hidden flex flex-col justify-between p-6">
+                            <!-- Background Map Graphic -->
+                            <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1200&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-luminosity" alt="Tangier Airport Map">
+
+                            <div class="relative z-10 flex items-center justify-between">
+                                <span class="px-3 py-1 rounded-full bg-shell-red text-white text-xs font-black uppercase tracking-wider shadow">
+                                    N1 Tangier Airport Access
+                                </span>
+                                <span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-black uppercase tracking-wider shadow">
+                                    Open Now
+                                </span>
+                            </div>
+
+                            <!-- Shell Map Pin Center -->
+                            <div class="relative z-10 text-center py-6">
+                                <div class="inline-flex p-4 rounded-full bg-shell-yellow text-shell-charcoal shadow-2xl border-4 border-shell-red animate-bounce">
+                                    <svg class="w-8 h-8" viewBox="0 0 100 100">
+                                        <path d="M50 5C41 5 35 12 32 18L18 25C12 28 8 35 8 42C8 58 20 72 35 78L40 92C42 96 46 98 50 98C54 98 58 96 60 92L65 78C80 72 92 58 92 42C92 35 88 28 82 25L68 18C65 12 59 5 50 5Z" fill="#DD1D21"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-black text-white mt-2">Relais de l'Aéroport</h3>
+                                <p class="text-xs text-shell-yellow font-bold">Shell Station • Select Shop • Restaurant</p>
+                            </div>
+
+                            <div class="relative z-10">
+                                <a href="https://maps.google.com" target="_blank" class="w-full py-3.5 rounded-xl bg-shell-yellow hover:bg-shell-yellowHover text-shell-charcoal font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md">
+                                    <i data-lucide="navigation" class="w-4 h-4 text-shell-red"></i>
+                                    <span>Get Directions via Google Maps</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-shell-charcoal text-white border-t-8 border-shell-red py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <!-- Brand Footer Badge -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-shell-yellow p-1 flex items-center justify-center border border-shell-red">
+                        <svg class="w-full h-full" viewBox="0 0 100 100">
+                            <path d="M50 5C41 5 35 12 32 18L18 25C12 28 8 35 8 42C8 58 20 72 35 78L40 92C42 96 46 98 50 98C54 98 58 96 60 92L65 78C80 72 92 58 92 42C92 35 88 28 82 25L68 18C65 12 59 5 50 5Z" fill="#DD1D21"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-base font-black text-white block leading-none">Relais de l'Aéroport</span>
+                        <span class="text-[11px] text-shell-yellow font-bold">Authorized Shell Station Hub</span>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <p class="text-xs text-gray-400 text-center">
+                    &copy; 2026 Relais de l'Aéroport (Shell Morocco Partner). All rights reserved. Premium fuel & travel dining.
+                </p>
+
+                <!-- Action Button -->
+                <button onclick="openQrModal()" class="text-xs font-black text-shell-yellow hover:underline flex items-center gap-1.5">
+                    <i data-lucide="qr-code" class="w-4 h-4 text-shell-red"></i>
+                    <span>Open Table Menu QR</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Table QR Scan Modal -->
+    <div id="qr-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full relative shadow-2xl text-center space-y-6 border-4 border-shell-red">
+            
+            <!-- Close Modal -->
+            <button onclick="closeQrModal()" class="absolute top-4 right-4 text-gray-400 hover:text-shell-red p-2 rounded-full bg-gray-100 transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div>
+                <div class="w-12 h-12 rounded-2xl bg-shell-yellow p-2 flex items-center justify-center mx-auto mb-3 border border-shell-red">
+                    <svg class="w-full h-full" viewBox="0 0 100 100">
+                        <path d="M50 5C41 5 35 12 32 18L18 25C12 28 8 35 8 42C8 58 20 72 35 78L40 92C42 96 46 98 50 98C54 98 58 96 60 92L65 78C80 72 92 58 92 42C92 35 88 28 82 25L68 18C65 12 59 5 50 5Z" fill="#DD1D21"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-black text-shell-charcoal">Digital Restaurant Menu</h3>
+                <p class="text-xs text-gray-500 mt-1">Point your camera to browse food on your smartphone.</p>
+            </div>
+
+            <!-- Modal QR Display Container -->
+            <div class="p-4 bg-shell-grayBg rounded-2xl inline-block border-2 border-shell-yellow">
+                <div id="modal-qrcode" class="flex justify-center items-center"></div>
+            </div>
+
+            <!-- Modal Download/Print CTAs -->
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="downloadModalQR()" class="py-2.5 px-3 rounded-xl bg-shell-yellow hover:bg-shell-yellowHover text-shell-charcoal text-xs font-black flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="download" class="w-4 h-4 text-shell-red"></i>
+                    <span>Download</span>
+                </button>
+                <button onclick="printModalQR()" class="py-2.5 px-3 rounded-xl bg-shell-red hover:bg-shell-redDark text-white text-xs font-black flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="printer" class="w-4 h-4 text-shell-yellow"></i>
+                    <span>Print QR</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script>
+        // Restaurant Menu Dataset with Detailed Moroccan & International Items
+        const menuItems = [
+            {
+                id: 1,
+                name: "Relais Gourmet Shell Burger",
+                category: "fastfood",
+                price: "65.00 MAD",
+                description: "100% Pure beef patty, cheddar slice, caramelized onions, crisp lettuce & signature Relais sauce with french fries.",
+                tag: "Bestseller",
+                tagBg: "bg-shell-red text-white",
+                image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 2,
+                name: "Moroccan Grilled Chicken Skewers",
+                category: "grill",
+                price: "75.00 MAD",
+                description: "Spiced marinated chicken breast brochettes served with saffron rice, grilled tomatoes, and garlic dip.",
+                tag: "Chef Special",
+                tagBg: "bg-shell-yellow text-shell-charcoal",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 3,
+                name: "Traditional Lamb Tajine with Prunes",
+                category: "moroccan",
+                price: "90.00 MAD",
+                description: "Slow-cooked tender lamb tajine with sweet caramelized prunes, toasted almonds, and fresh clay oven bread.",
+                tag: "Traditional",
+                tagBg: "bg-emerald-600 text-white",
+                image: "https://images.unsplash.com/photo-1541518763669-27fef04b14da?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 4,
+                name: "Full Moroccan Airport Breakfast",
+                category: "breakfast",
+                price: "45.00 MAD",
+                description: "Fresh fried eggs, black olives, goat cheese, harcha bread, msemen pancake, honey & mint tea.",
+                tag: "Breakfast",
+                tagBg: "bg-amber-500 text-white",
+                image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 5,
+                name: "Classic Club Sandwich & Chips",
+                category: "fastfood",
+                price: "50.00 MAD",
+                description: "Triple-layer toasted sandwich with chicken, turkey bacon, egg, mayonnaise, tomato and crispy potato chips.",
+                tag: "Quick Bite",
+                tagBg: "bg-shell-yellow text-shell-charcoal",
+                image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 6,
+                name: "Authentic Harira Soup & Dates",
+                category: "moroccan",
+                price: "30.00 MAD",
+                description: "Traditional Moroccan chickpea, lentil, tomato and herb soup served hot with sweet dates & chewy chebakia.",
+                tag: "Popular",
+                tagBg: "bg-shell-red text-white",
+                image: "https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 7,
+                name: "Mixed Charcoal Grill Platter",
+                category: "grill",
+                price: "110.00 MAD",
+                description: "Kefta minced meat, chicken skewers, lamb chops served with seasoned fries and house salads.",
+                tag: "Hearty Meal",
+                tagBg: "bg-shell-red text-white",
+                image: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 8,
+                name: "Fresh Squeezed Orange Juice & Mint Tea",
+                category: "beverages",
+                price: "20.00 MAD",
+                description: "100% natural freshly squeezed local oranges or a hot pot of traditional Moroccan mint tea.",
+                tag: "Refreshment",
+                tagBg: "bg-amber-400 text-shell-charcoal",
+                image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?q=80&w=800&auto=format&fit=crop"
+            }
+        ];
+
+        let activeCategory = 'all';
+        let heroQr = null;
+        let studioQr = null;
+        let modalQr = null;
+        let studioQrColor = "#DD1D21";
+        let studioQrBg = "#ffffff";
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderMenuItems(menuItems);
+            initQRCodes();
+            setupMobileMenu();
+        });
+
+        // Mobile Menu Drawer Handler
+        function setupMobileMenu() {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+
+        // Render Menu Cards
+        function renderMenuItems(items) {
+            const grid = document.getElementById('menu-grid');
+            const noResults = document.getElementById('no-results');
+            grid.innerHTML = '';
+
+            if (items.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <div class="h-48 overflow-hidden relative bg-gray-100">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 ${item.tagBg} text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider shadow-sm">${item.tag}</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-start justify-between gap-2">
+                                <h3 class="font-extrabold text-shell-charcoal text-base leading-snug">${item.name}</h3>
+                                <span class="text-shell-red font-black text-sm shrink-0 bg-shell-red/5 px-2 py-1 rounded-md">${item.price}</span>
+                            </div>
+                            <p class="text-gray-500 text-xs mt-2 leading-relaxed">${item.description}</p>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5 pt-0">
+                        <button onclick="showToast('Selected: ${item.name}. Order at counter or via QR table code!')" class="w-full py-2.5 rounded-xl bg-shell-grayBg hover:bg-shell-yellow text-shell-charcoal text-xs font-black flex items-center justify-center gap-1.5 transition-colors border border-gray-200">
+                            <i data-lucide="plus" class="w-4 h-4 text-shell-red"></i>
+                            <span>Select Dish Info</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Category Filtering
+        function filterCategory(cat) {
+            activeCategory = cat;
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.className = "category-btn px-4 py-2.5 rounded-xl text-xs font-black transition-all bg-white text-shell-charcoal hover:bg-shell-yellow whitespace-nowrap";
+            });
+
+            event.target.className = "category-btn active px-4 py-2.5 rounded-xl text-xs font-black transition-all bg-shell-red text-white whitespace-nowrap shadow-sm";
+            filterAndSearch();
+        }
+
+        function handleSearch() {
+            filterAndSearch();
+        }
+
+        function filterAndSearch() {
+            const query = document.getElementById('menu-search').value.toLowerCase();
+            const filtered = menuItems.filter(item => {
+                const matchCategory = (activeCategory === 'all' || item.category === activeCategory);
+                const matchQuery = item.name.toLowerCase().includes(query) || 
+                                   item.description.toLowerCase().includes(query) || 
+                                   item.tag.toLowerCase().includes(query);
+                return matchCategory && matchQuery;
+            });
+            renderMenuItems(filtered);
+        }
+
+        // QR Code Generators Setup
+        function initQRCodes() {
+            const baseUrl = window.location.href.split('#')[0] + '#restaurant';
+
+            // Hero QR
+            heroQr = new QRCode(document.getElementById("hero-qrcode"), {
+                text: baseUrl,
+                width: 120,
+                height: 120,
+                colorDark : "#DD1D21",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+
+            // Modal QR
+            modalQr = new QRCode(document.getElementById("modal-qrcode"), {
+                text: baseUrl,
+                width: 160,
+                height: 160,
+                colorDark : "#DD1D21",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+
+            // Studio Custom QR
+            updateCustomQR();
+        }
+
+        // Update Table QR Studio
+        function updateCustomQR() {
+            const preset = document.getElementById("qr-preset-select").value;
+            const standTitle = document.getElementById("qr-stand-title").value;
+            const targetSubtitle = document.getElementById("preview-target-subtitle");
+            const standTitleElement = document.getElementById("preview-stand-title");
+
+            let targetUrl = window.location.href.split('#')[0] + '#restaurant';
+            
+            if (preset !== 'main') {
+                targetUrl += '?preset=' + preset;
+                targetSubtitle.innerText = 'Scanning Target: ' + preset.toUpperCase().replace('-', ' ');
+            } else {
+                targetSubtitle.innerText = 'Scan to browse main restaurant menu';
+            }
+
+            standTitleElement.innerText = standTitle || "Relais de l'Aéroport";
+
+            const container = document.getElementById("studio-qrcode");
+            container.innerHTML = '';
+
+            studioQr = new QRCode(container, {
+                text: targetUrl,
+                width: 150,
+                height: 150,
+                colorDark : studioQrColor,
+                colorLight : studioQrBg,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        function setQRColor(dark, light) {
+            studioQrColor = dark;
+            studioQrBg = light;
+            updateCustomQR();
+        }
+
+        // Copy Link
+        function copyMenuLink() {
+            const link = window.location.href.split('#')[0] + '#restaurant';
+            const temp = document.createElement('input');
+            document.body.appendChild(temp);
+            temp.value = link;
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast('Direct Shell Menu Link Copied!');
+        }
+
+        // Open Modal
+        function openQrModal() {
+            const modal = document.getElementById('qr-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeQrModal() {
+            const modal = document.getElementById('qr-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        // Studio Print & Download
+        function downloadStudioQR() {
+            const img = document.querySelector("#studio-qrcode img");
+            if (img && img.src) {
+                const a = document.createElement("a");
+                a.href = img.src;
+                a.download = "Shell-Relais-Table-QR.png";
+                a.click();
+                showToast("Table Stand QR Downloaded!");
+            }
+        }
+
+        function printStudioQR() {
+            const img = document.querySelector("#studio-qrcode img");
+            const title = document.getElementById("preview-stand-title").innerText;
+            const sub = document.getElementById("preview-target-subtitle").innerText;
+
+            if (img && img.src) {
+                const w = window.open('', '_blank');
+                w.document.write(`
+                    <html>
+                        <head>
+                            <title>Print Shell Table Stand QR</title>
+                            <style>
+                                body { font-family: sans-serif; text-align: center; padding: 40px; border: 10px solid #DD1D21; margin: 20px; }
+                                h1 { color: #DD1D21; margin-bottom: 5px; text-transform: uppercase; }
+                                h3 { color: #1A1A1A; margin-top: 0; }
+                                img { width: 220px; height: 220px; border: 4px solid #FFD500; padding: 10px; }
+                                .footer { margin-top: 30px; font-size: 12px; font-weight: bold; color: #666; }
+                            </style>
+                        </head>
+                        <body>
+                            <h1>${title}</h1>
+                            <h3>${sub}</h3>
+                            <img src="${img.src}" />
+                            <div class="footer">Shell Station • Tangier Airport Road (N1)</div>
+                        </body>
+                    </html>
+                `);
+                w.document.close();
+                w.focus();
+                setTimeout(() => { w.print(); w.close(); }, 250);
+            }
+        }
+
+        function downloadModalQR() {
+            const img = document.querySelector("#modal-qrcode img");
+            if (img && img.src) {
+                const a = document.createElement("a");
+                a.href = img.src;
+                a.download = "Relais-Aéroport-Menu-QR.png";
+                a.click();
+                showToast("Menu QR Downloaded!");
+            }
+        }
+
+        function printModalQR() {
+            const img = document.querySelector("#modal-qrcode img");
+            if (img && img.src) {
+                const w = window.open('', '_blank');
+                w.document.write(`
+                    <html>
+                        <head><title>Print Shell Menu QR</title></head>
+                        <body style="text-align:center; font-family:sans-serif; padding:40px;">
+                            <h2 style="color:#DD1D21;">Relais de l'Aéroport</h2>
+                            <p>Scan for Digital Restaurant Menu</p>
+                            <img src="${img.src}" style="width:200px; height:200px;" />
+                        </body>
+                    </html>
+                `);
+                w.document.close();
+                w.focus();
+                setTimeout(() => { w.print(); w.close(); }, 250);
+            }
+        }
+
+        // Custom Toast Notifications
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = "bg-shell-yellow text-shell-charcoal px-4 py-3 rounded-xl font-black text-xs shadow-xl flex items-center gap-2 border border-amber-400 pointer-events-auto transition-all transform translate-y-2 opacity-0";
+            toast.innerHTML = `
+                <i data-lucide="check-circle" class="w-4 h-4 text-shell-red"></i>
+                <span>${msg}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
